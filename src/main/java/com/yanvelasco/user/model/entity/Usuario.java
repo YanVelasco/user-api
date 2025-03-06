@@ -26,13 +26,12 @@ public class Usuario implements UserDetails {
     private String email;
     @Column(name = "senha")
     private String senha;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private List<Endereco> enderecos;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private List<Telefone> telefones;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
