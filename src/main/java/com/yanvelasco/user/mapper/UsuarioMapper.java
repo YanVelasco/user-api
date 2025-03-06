@@ -47,6 +47,7 @@ public class UsuarioMapper {
 
     public EnderecoDTO toEnderecoDTO(Endereco endereco) {
         return EnderecoDTO.builder()
+                .id(endereco.getId())
                 .rua(endereco.getRua())
                 .numero(endereco.getNumero())
                 .complemento(endereco.getComplemento())
@@ -64,6 +65,7 @@ public class UsuarioMapper {
 
     public TelefoneDTO toTelefoneDTO(Telefone telefone) {
         return TelefoneDTO.builder()
+                .id(telefone.getId())
                 .numero(telefone.getNumero())
                 .ddd(telefone.getDdd())
                 .build();
@@ -71,6 +73,7 @@ public class UsuarioMapper {
 
     public Endereco toEndereco(EnderecoDTO enderecoDTO) {
         return Endereco.builder()
+                .id(enderecoDTO.getId())
                 .rua(enderecoDTO.getRua())
                 .numero(enderecoDTO.getNumero())
                 .complemento(enderecoDTO.getComplemento())
@@ -86,10 +89,43 @@ public class UsuarioMapper {
                 .toList();
     }
 
-    public Telefone toTelefone(TelefoneDTO telefoneDTO){
+    public Telefone toTelefone(TelefoneDTO telefoneDTO) {
         return Telefone.builder()
+                .id(telefoneDTO.getId())
                 .numero(telefoneDTO.getNumero())
                 .ddd(telefoneDTO.getDdd())
                 .build();
+    }
+
+
+    public Endereco updateEndereco(EnderecoDTO enderecoDTO, Endereco endereco) {
+        if (enderecoDTO.getRua() != null) {
+            endereco.setRua(enderecoDTO.getRua());
+        }
+        if (enderecoDTO.getNumero() != null) {
+            endereco.setNumero(enderecoDTO.getNumero());
+        }
+        if (enderecoDTO.getComplemento() != null) {
+            endereco.setComplemento(enderecoDTO.getComplemento());
+        }
+        if (enderecoDTO.getCidade() != null) {
+            endereco.setCidade(enderecoDTO.getCidade());
+        }
+        if (enderecoDTO.getEstado() != null) {
+            endereco.setEstado(enderecoDTO.getEstado());
+        }
+        if (enderecoDTO.getCep() != null) {
+            endereco.setCep(enderecoDTO.getCep());
+        }
+        return endereco;
+    }
+
+    public Telefone upadateTelefone(TelefoneDTO telefoneDTO, Telefone telefone) {
+        Telefone.builder()
+                .id(telefoneDTO.getId())
+                .numero(telefoneDTO.getNumero())
+                .ddd(telefoneDTO.getDdd())
+                .build();
+        return telefone;
     }
 }
