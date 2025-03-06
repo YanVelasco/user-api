@@ -7,4 +7,5 @@ public interface UsuarioService {
     ResponseEntity<UsuarioDTO> cadastrar(UsuarioDTO usuarioDTO);
     ResponseEntity<UsuarioDTO> buscarUsuarioPorEmail(String email);
     ResponseEntity<Void> deletaUsuarioPorEmail(String email);
+    ResponseEntity<UsuarioDTO> atualizarDadosDoUsuario(String token, UsuarioDTO usuarioDTO);
 }
