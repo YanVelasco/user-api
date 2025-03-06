@@ -1,6 +1,8 @@
 package com.yanvelasco.user.model.controller;
 
 import com.yanvelasco.user.infra.security.JwtUtil;
+import com.yanvelasco.user.model.dto.EnderecoDTO;
+import com.yanvelasco.user.model.dto.TelefoneDTO;
 import com.yanvelasco.user.model.dto.UsuarioDTO;
 import com.yanvelasco.user.model.service.impl.UsuarioServiceImpl;
 import org.springframework.http.ResponseEntity;
@@ -46,5 +48,29 @@ public class UsuarioController {
     public ResponseEntity<Void> deletaUsuarioPorEmail(@PathVariable String email) {
         usuarioServiceImpl.deletaUsuarioPorEmail(email);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping
+    public ResponseEntity<UsuarioDTO> atuaçizarDadosDoUsuario(
+            @RequestHeader("Authorization") String token,
+            @RequestBody UsuarioDTO usuarioDTO
+    ) {
+        return usuarioServiceImpl.atualizarDadosDoUsuario(token, usuarioDTO);
+    }
+
+    @PutMapping("/endereco/{id}")
+    public ResponseEntity<EnderecoDTO> atualizarEndereco(
+            @PathVariable Long id,
+            @RequestBody EnderecoDTO enderecoDTO
+    ) {
+        return usuarioServiceImpl.atualizarEndereco(id, enderecoDTO);
+    }
+
+    @PutMapping("/telefone/{id}")
+    public ResponseEntity<TelefoneDTO> atualizarTelefone(
+            @PathVariable Long id,
+            @RequestBody TelefoneDTO telefoneDTO
+    ) {
+        return usuarioServiceImpl.atualizarTelefone(id, telefoneDTO);
     }
 }
