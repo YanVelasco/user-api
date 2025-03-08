@@ -128,4 +128,25 @@ public class UsuarioMapper {
                 .build();
         return telefone;
     }
+
+    public Endereco toEndereco(EnderecoDTO enderecoDTO, Long idUsuario) {
+        return Endereco.builder()
+                .rua(enderecoDTO.getRua())
+                .cidade(enderecoDTO.getCidade())
+                .estado(enderecoDTO.getEstado())
+                .cep(enderecoDTO.getCep())
+                .numero(enderecoDTO.getNumero())
+                .complemento(enderecoDTO.getComplemento())
+                .usuario_id(idUsuario)
+                .build();
+    }
+
+    public Telefone toTelefone(TelefoneDTO telefoneDTO, Long idUsuario) {
+        return Telefone.builder()
+                .numero(telefoneDTO.getNumero())
+                .ddd(telefoneDTO.getDdd())
+                .usuario_id(idUsuario)
+                .build();
+    }
+
 }

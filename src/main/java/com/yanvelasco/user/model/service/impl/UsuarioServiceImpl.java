@@ -7,6 +7,8 @@ import com.yanvelasco.user.mapper.UsuarioMapper;
 import com.yanvelasco.user.model.dto.EnderecoDTO;
 import com.yanvelasco.user.model.dto.TelefoneDTO;
 import com.yanvelasco.user.model.dto.UsuarioDTO;
+import com.yanvelasco.user.model.entity.Endereco;
+import com.yanvelasco.user.model.entity.Telefone;
 import com.yanvelasco.user.model.entity.Usuario;
 import com.yanvelasco.user.model.repository.EnderecoRepository;
 import com.yanvelasco.user.model.repository.TelefoneRepository;
@@ -92,17 +94,17 @@ public class UsuarioServiceImpl implements UsuarioService {
         return ResponseEntity.ok(usuarioMapper.toUsuarioDTO(usuario));
     }
 
-   @Override
-   public ResponseEntity<EnderecoDTO> atualizarEndereco(Long id, EnderecoDTO enderecoDTO) {
-       var endereco = enderecoRepository.findById(id).orElseThrow(
-               () -> new ResourceNotFoundException("Endereço", "id", id.toString())
-       );
+    @Override
+    public ResponseEntity<EnderecoDTO> atualizarEndereco(Long id, EnderecoDTO enderecoDTO) {
+        var endereco = enderecoRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Endereço", "id", id.toString())
+        );
 
-       usuarioMapper.updateEndereco(enderecoDTO, endereco);
-       enderecoRepository.save(endereco);
+        usuarioMapper.updateEndereco(enderecoDTO, endereco);
+        enderecoRepository.save(endereco);
 
-       return ResponseEntity.ok(usuarioMapper.toEnderecoDTO(endereco));
-   }
+        return ResponseEntity.ok(usuarioMapper.toEnderecoDTO(endereco));
+    }
 
     @Override
     public ResponseEntity<TelefoneDTO> atualizarTelefone(Long id, TelefoneDTO telefoneDTO) {
@@ -125,4 +127,29 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     }
 
+    public ResponseEntity<EnderecoDTO> cadastrarEndereco(String token, EnderecoDTO enderecoDTO) {
+        String email = jwtUtil.extractUsername(token.substring(7));
+        Usuario usuario = usuarioRepository.findByEmail(email).orElseThrow(
+                () -> new ResourceNotFoundException("Email", "email", email)
+        );
+
+        Endereco endereco = usuarioMapper.toEndereco(enderecoDTO, usuario.getId());
+
+        enderecoRepository.save(endereco);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioMapper.toEnderecoDTO(endereco));
+    }
+
+    public ResponseEntity<TelefoneDTO> cadastrarTelefone(String token, TelefoneDTO telefoneDTO) {
+        String email = jwtUtil.extractUsername(token.substring(7));
+        Usuario usuario = usuarioRepository.findByEmail(email).orElseThrow(
+                () -> new ResourceNotFoundException("Email", "email", email)
+        );
+
+        Telefone telefone = usuarioMapper.toTelefone(telefoneDTO, usuario.getId());
+
+        telefoneRepository.save(telefone);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioMapper.toTelefoneDTO(telefone));
+    }
 }
